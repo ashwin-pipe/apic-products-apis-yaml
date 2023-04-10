@@ -1,0 +1,54 @@
+swagger: '2.0'
+info:
+  title: test-api
+  x-ibm-name: test-api
+  version: 1.0.0
+x-ibm-configuration:
+  cors:
+    enabled: true
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  assembly:
+    execute:
+      - invoke:
+          title: invoke
+          version: 2.0.0
+          verb: GET
+          target-url: https://petstore.swagger.io/v2/store/order/7
+          follow-redirects: false
+          timeout: 60
+          parameter-control:
+            type: blocklist
+            values: []
+          header-control:
+            type: blocklist
+            values: []
+          inject-proxy-headers: true
+          persistent-connection: true
+          backend-type: detect
+    finally: []
+  properties:
+    target-url:
+      value: http://example.com/operation-name
+      description: The URL of the target service
+      encoded: false
+  activity-log:
+    enabled: true
+    success-content: activity
+    error-content: payload
+basePath: /test-api
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+schemes:
+  - https
